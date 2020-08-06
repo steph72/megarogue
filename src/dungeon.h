@@ -15,6 +15,8 @@ typedef struct
     byte *canvas;
 } dungeonDescriptor;
 
+
+
 dungeonDescriptor *createDungeon(byte width,
                                  byte height,
                                  byte minRoomCount,

@@ -6,17 +6,10 @@
 #include "../mega65-libc/cc65/src/memory.c"
 #include "../mega65-libc/cc65/src/conio.c"
 
-#ifdef __CX16__
 const int xDungeonSize = 80;
-const int yDungeonSize = 58;
-const int minDungeonRoomCount = 10;
-const int minRoomSize = 2;
-#else
-const int xDungeonSize = 40;
 const int yDungeonSize = 24;
 const int minDungeonRoomCount = 0;
 const int minRoomSize = 2;
-#endif
 
 const char signs[] = {' ', '.', '#', 'X', '*'};
 
@@ -56,11 +49,15 @@ void main()
 {
     dungeonDescriptor *aDungeon;
     mega65_io_enable();
-    POKE (VIC_BASE + 0x60,0x00);
-    POKE (VIC_BASE + 0x61,0xf0);
-    POKE (VIC_BASE + 0x62,0x04);
-    POKE (VIC_BASE + 0x63,0x00);
+    SET_H640();
+    setscreenaddr(0x48000UL);
+    conioinit();
+    textcolor(5);
+    bordercolor(0);
+    bgcolor(0);
     srand(439);
+    clrscr();
+
     do
     {
         aDungeon = createDungeon(xDungeonSize,
@@ -68,9 +65,10 @@ void main()
                                  minDungeonRoomCount,
                                  minRoomSize);
         dumpDungeon(aDungeon);
-        gotoxy(0, 0);
+        gotoxy(0, 24);
         cputs("press any key for new dungeon");
         cgetc();
+        deallocDungeon(aDungeon);
 
     } while (1);
 }

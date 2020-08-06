@@ -556,8 +556,9 @@ dungeonDescriptor *createDungeon(byte width,
     // create dungeon structure and canvas array
     dungeonDescriptor *ddesc = (dungeonDescriptor *)malloc(sizeof(dungeonDescriptor));
 
-    if (minRoomSize<1) {
-        minRoomSize=2;
+    if (minRoomSize < 1)
+    {
+        minRoomSize = 2;
     }
 
     if (!minRoomCount)
@@ -565,9 +566,10 @@ dungeonDescriptor *createDungeon(byte width,
         minRoomCount = (width * height) / CROOM_FACTOR;
         // minRoomCount /= (minRoomSize-1);
 #ifdef DDEBUG
+        gohome();
         cputs("calculated min room count: ");
-        cputhex(minRoomCount,8);
-        cputs("\r\n");
+        cputhex(minRoomCount, 2);
+        
 #endif
     }
 
@@ -596,9 +598,7 @@ dungeonDescriptor *createDungeon(byte width,
         */
 
 #ifdef DDEBUG
-    gotoxy(0, 0);
-    cputs("pass 1.1: create frames\r\n");
-    bordercolor(0);
+    cprintf("pass 1.1 create frames\n");
 #endif
     deallocFrames(startFrame);
     startFrame = createFrames(width,
@@ -606,32 +606,25 @@ dungeonDescriptor *createDungeon(byte width,
                               minRoomCount,
                               minRoomSize + 3);
 #ifdef DDEBUG
-    gotoxy(0, 1);
-    cputs("pass 1.2: create rooms");
-        bordercolor(1);
-
+    cprintf("pass 1.2: create rooms\n");
 #endif
     createRooms(startFrame);
 
     ddesc->numRooms = countLeafFrames(startFrame);
 
 #ifdef DDEBUG
-    cputs("\r\npass 2: instantiating rooms\r\n");
-        bordercolor(2);
-
+    cprintf("pass 2: instantiating rooms\n");
 #endif
     instantiateRooms(startFrame);
 
 #ifdef DDEBUG
-    cputs("pass 3: creating hallways\r\n");
-    bordercolor(3);
+    cprintf("pass 3: creating hallways\n");
 
 #endif
     createHallways(startFrame);
 
 #ifdef DDEBUG
-    cputs("pass 4: postprocess dungeon ");
-    bordercolor(4);
+    cprintf("pass 4: postprocess dungeon\n");
 #endif
     postprocessDungeon();
     deallocFrames(startFrame);
