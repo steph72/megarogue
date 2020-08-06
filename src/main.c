@@ -47,11 +47,12 @@ unsigned int debugMem(void)
 
 void main()
 {
+    int i;
     dungeonDescriptor *aDungeon;
     mega65_io_enable();
-    SET_H640();
-    setscreenaddr(0x48000UL);
+    setscreenaddr(0x4f000UL);
     conioinit();
+    setscreensize(80, 25);
     textcolor(5);
     bordercolor(0);
     bgcolor(0);

@@ -254,9 +254,6 @@ void instantiateRoomInDungeon(frame *aFrame)
             {
                 putCanvas(x, y, TMP_DE_FLOOR);
             }
-
-            //_gCanvas[x + (y * _gDungeonWidth)] =
-            //    ((x == x0 || x == x1 || y == y0 || y == y1)) ? TMP_DE_RWALL : TMP_DE_FLOOR;
         }
     }
 }
@@ -569,7 +566,7 @@ dungeonDescriptor *createDungeon(byte width,
         gohome();
         cputs("calculated min room count: ");
         cputhex(minRoomCount, 2);
-        
+
 #endif
     }
 

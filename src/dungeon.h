@@ -1,6 +1,7 @@
 extern const int kErrNoRoomForDungeon;
 
 typedef unsigned char byte;
+typedef long exAdr;
 
 typedef struct _room
 {
@@ -15,6 +16,10 @@ typedef struct
     byte *canvas;
 } dungeonDescriptor;
 
+typedef struct _dungeonItem {
+    unsigned int itemID;
+    dungeonItem *enclosedItem;
+} dungeonItem;
 
 
 dungeonDescriptor *createDungeon(byte width,
