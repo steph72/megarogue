@@ -1,6 +1,6 @@
 obj/*
 .vscode/ipch/*
-disc/*
+
 
 .vscode/c_cpp_properties.json
 manual/manual.aux
