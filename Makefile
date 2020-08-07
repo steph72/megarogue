@@ -17,7 +17,7 @@ TARGETS := c64
 
 # Name of the final, single-file executable.
 # Default: name of the current dir with target name appended
-PROGRAM := bin/picoh.prg
+PROGRAM := bin/mrogue.prg
 
 # Path(s) to additional libraries required for linking the program
 # Use only if you don't want to place copies of the libraries in SRCDIR
@@ -330,7 +330,7 @@ $(PROGRAM): $(CONFIG) $(OBJECTS) $(LIBS)
 
 test: $(PROGRAM)
 	$(PREEMUCMD)
-	$(EMUCMD) disc/picohack.d81
+	$(EMUCMD) disc/megarogue.d81
 	$(POSTEMUCMD)
 
 clean:
