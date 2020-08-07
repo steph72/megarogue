@@ -13,9 +13,11 @@
 // maximum tries to lay out a dungeon before starting over
 #define MAXTRIES 64 
 
-// higher values mean less rooms per dungeon space
-// 120 == 14 rooms in 80x24 dungeon / 
-#define MIN_ROOM_COUNT_FACTOR 120   
+// divisor for calculating the minimum room count
+// higher values mean fewer rooms per dungeon space
+// 120 == 16 rooms in 80x24 dungeon / 8 rooms in 40x24  
+// 160 == 12   "                    / 6        "
+#define MIN_ROOM_COUNT_DIVISOR 120   
 
 const dungeonItemID kDungeonItemTempWallLeft = 0xf0;
 const dungeonItemID kDungeonItemTempWallRight = 0xf1;
@@ -23,7 +25,8 @@ const dungeonItemID kDungeonItemTempWallTop = 0xf2;
 const dungeonItemID kDungeonItemTempWallBottom = 0xf3;
 const dungeonItemID kDungeonItemTempHallway = 0xf4;
 
-const dungeonItemID _doorIDs[] = {2, 3, 1}; // cc65 bug? can't put constants kDungeonItemOpenDoor, etc. here...
+const dungeonItemID _doorIDs[] = {3, 2, 1};
+// cc65 bug? can't put constants kDungeonItemOpenDoor, etc. here...
 
 int _gMinRooms;
 int _gMinRoomSize;
@@ -62,7 +65,9 @@ void putCanvas(byte x, byte y, byte elem)
 
 byte getCanvas(byte x, byte y)
 {
-    return (getDungeonItem(x, y).itemID);
+    dungeonItem anItem;
+    getDungeonItem(x,y,&anItem);
+    return (anItem.itemID);
 }
 
 byte midX(rect *aRect)
@@ -564,14 +569,13 @@ dungeonDescriptor *createDungeon(byte width,
 
     if (!minRoomCount)
     {
-        minRoomCount = (width * height) / MIN_ROOM_COUNT_FACTOR;
+        minRoomCount = (width * height) / MIN_ROOM_COUNT_DIVISOR;
         // minRoomCount /= (minRoomSize-1);
 #ifdef DDEBUG
         gohome();
         cputs("calculated min room count: ");
         cputdec(minRoomCount,0,0);
         cprintf("\n");
-
 #endif
     }
 
@@ -630,7 +634,7 @@ dungeonDescriptor *createDungeon(byte width,
 #ifdef DDEBUG
     cprintf("pass 5: generate stairs\n");
 #endif
-    newDungeonItemAtRandomPos(ddesc, kDungeonItemStairUp);
-    newDungeonItemAtRandomPos(ddesc, kDungeonItemStairDown);
+    newDungeonItemAtRandomPos(ddesc, kDungeonItemStairUp, &ddesc->stairUp);
+    newDungeonItemAtRandomPos(ddesc, kDungeonItemStairDown, &ddesc->stairDown);
     return ddesc;
 }
